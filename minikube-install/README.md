@@ -20,17 +20,15 @@ sudo apt-get install docker.io
 sudo systemctl enable docker
 docker --version
 ```
-Add user in docker group, 
-> switch to your user (own user) and run following commands
+Start up a root shell for running minikube as your root user.
 ```
-sudo groupadd docker
-sudo usermod -aG docker $USER
+sudo -i
 ```
-> refresh the login session (logout and then login again)
-# Step 3) Install Minikube dependencies
+# Step 3) Install additional dependencies
 Install the following minikube dependencies by running beneath command,
 ```
 sudo apt install -y curl wget apt-transport-https
+sudo apt-get install conntrack
 ```
 # Step 4) Download Minikube Binary
 ```
@@ -61,10 +59,51 @@ Now verify the kubectl version
 ```
 kubectl version -o yaml
 ```
-# Step 6) Start the minikube
-As we are already stated in the beginning that we would be using docker as base for minikue, so start the minikube with the docker driver,
+# Step 6) Add the minikube and localhost IPs to the NO_PROXY IP list.
 ```
-minikube start --driver=docker
+set NO_PROXY=localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24
+```
+# Step 7) Start the minikube
+As we are already stated in the beginning that we would be using docker as base for minikue, so start the minikube with the docker-env and vm-driver=none,
+```
+minikube start --vm-driver=none --docker-env NO_PROXY=$NO_PROXY
+```
+> Minikube start output....
+```
+* minikube v1.23.2 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Starting control plane node minikube in cluster minikube
+* Running on localhost (CPUs=4, Memory=16040MB, Disk=59715MB) ...
+* OS release is Ubuntu 18.04.6 LTS
+* Preparing Kubernetes v1.22.2 on Docker 20.10.7 ...
+  - env NO_PROXY=
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+    > kubelet.sha256: 64 B / 64 B [--------------------------] 100.00% ? p/s 0s
+    > kubectl.sha256: 64 B / 64 B [--------------------------] 100.00% ? p/s 0s
+    > kubeadm.sha256: 64 B / 64 B [--------------------------] 100.00% ? p/s 0s
+    > kubeadm: 43.71 MiB / 43.71 MiB [---------------] 100.00% 3.43 MiB p/s 13s
+    > kubectl: 44.73 MiB / 44.73 MiB [---------------] 100.00% 3.27 MiB p/s 14s
+    > kubelet: 146.25 MiB / 146.25 MiB [-------------] 100.00% 6.61 MiB p/s 22s
+  - Generating certificates and keys ...
+  - Booting up control plane ...
+  - Configuring RBAC rules ...
+* Configuring local host environment ...
+*
+! The 'none' driver is designed for experts who need to integrate with an existing VM
+* Most users should use the newer 'docker' driver instead, which does not require root!
+* For more information, see: https://minikube.sigs.k8s.io/docs/reference/drivers/none/
+*
+! kubectl and minikube configuration will be stored in /root
+! To use kubectl or minikube commands as your own user, you may need to relocate them. For example, to overwrite your own settings, run:
+*
+  - sudo mv /root/.kube /root/.minikube $HOME
+  - sudo chown -R $USER $HOME/.kube $HOME/.minikube
+*
+* This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 Perfect, above confirms that minikube cluster has been configured and started successfully.
 
@@ -72,4 +111,25 @@ Perfect, above confirms that minikube cluster has been configured and started su
 ```
 minikube status
 ```
+# Step 8) Deploy the sample application
+> Now let’s try a quick deployment named my-nginx by using a container image named nginx previously stored on the docker hub container image registry, with the following command:
+```
+kubectl create deployment my-nginx --image=nginx
+```
+> Run following kubectl command to verify deployment status
+```
+kubectl get deployments.apps my-nginx
+kubectl get pods
+```
+> Expose the deployment using following command,
+```
+kubectl expose deployment my-nginx --name=my-nginx-svc --type=NodePort --port=80
+kubectl get svc my-nginx-svc
+```
+> Use below command to get your service url,
+```
+minikube service my-nginx-svc --url
+```
+# Step 9) Access the service on a web browser
+> Open the web browser window with the minikube single node instance external IP(VM IP) and port 31662 i.e http://external_ip:30535
 
