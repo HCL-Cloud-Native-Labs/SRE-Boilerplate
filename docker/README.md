@@ -18,7 +18,7 @@
 
 > The docker client is just a CLI tool to make requests against a REST API, which is responsible for interacting with the docker daemon or dockerd. dockerd will deal with the operative system to ensure the proper behaviour for the containers.
 
-![Docker Engine Flow](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/tree/main/docker/docker-engine-components-flow.png)
+![Docker Engine Flow](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/tree/main/docker/static/docker-engine-components-flow.png)
 
 > Now we have a clear understanding of the main elements of Docker, how does it all work together
 
@@ -29,7 +29,7 @@
 > First, our computer will make a request to the configured docker host API, which is going to interact with the Docker daemon.
 At this point, the daemon knows what it must do. It will look up the redis image on the host registry. If it’s not present, a new lookup will be made, this time against the configured image registry (Docker Hub, ECR, ACR, GCR, …) and pulled (downloaded). Then it will spawn a container based in the downloaded image.
 
-![Docker Architecture](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/tree/main/docker/Docker-architecture.png)
+![Docker Architecture](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/tree/main/docker/static/Docker-architecture.png)
 
 
 ## what is Docker Image ?
