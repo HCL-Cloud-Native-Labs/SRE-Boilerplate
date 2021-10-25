@@ -9,15 +9,16 @@
 ```
 ### Step2 -- `Install Java - Jenkins - Maven: follow instruction from link below`
 
-   [INSTALL-JAVA-JENKINS-MAVEN](https://github.com/lerndevops/labs/blob/master/jenkins/Install-Java-Jenkins-ubuntu.txt)
+   [INSTALL-JAVA-JENKINS-MAVEN](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/jenkins/Install/Install-Java-Jenkins-ubuntu.txt)
+   
 
 ### Step3 -- `Install Docker: follow instruction from link below`
     
-   [INSTALL-DOCKER](https://github.com/lerndevops/labs/blob/master/docker/install/Install-Docker-manual.txt)
+   [INSTALL-DOCKER](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/docker/install/Install-Docker-manual.txt)
 
 ### Step4 -- `Install Ansible: follow instruction from link below`
 
-   [INSTALL-ANSIBLE](https://github.com/lerndevops/labs/blob/master/ansible/install/InsallAnsible.txt)
+   [INSTALL-ANSIBLE](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/ansible/install/InsallAnsible.txt)
 
 ### Step5 -- `configure Jenkins with Docker` 
 
@@ -57,7 +58,7 @@
 	
 > Copy the ssh-keys for ansible user from Jenkins machine (acting as ansible controller) to QA Swarm Manager & PROD Swarm Manager so that Jenkins can connect & deploy the containers. 
 
-   [SSH-KEYS-SETUP](https://github.com/lerndevops/labs/blob/master/ansible/install/ssh-keys-setup.md)
+   [SSH-KEYS-SETUP](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/ansible/install/ssh-keys-setup.md)
 
 ### Step8 -- `Setup Ansible Inventory on Jenkins machine`
 
