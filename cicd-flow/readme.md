@@ -18,7 +18,7 @@
 
 ### Step4 -- `Install Ansible: follow instruction from link below`
 
-   [INSTALL-ANSIBLE](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/ansible/install/InsallAnsible.txt)
+   [INSTALL-ANSIBLE](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/ansible/install/installAnsible.sh)
 
 ### Step5 -- `configure Jenkins with Docker` 
 
