@@ -1,0 +1,9 @@
+- hosts: was
+  become: yes
+  tasks:
+   - name: Install Git
+     yum: name=git state=present
+   - name: git clone
+     git:
+      repo: 'https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate'
+      dest: /home
