@@ -48,11 +48,11 @@ commit: 0a0ad764652082477c00d51d2475284b5d39ceed
 # Step 5) Install Kubectl utility
 Kubectl is a command utility which is used to interact with Kubernetes cluster for managing deployments, service and pods etc. Use below curl command to download latest version of kubectl.
 ```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 ```
 Once kubectl is downloaded then set the executable permissions on kubectl binary and move it to the path /usr/local/bin.
 ```
-chmod +x kubectl
+sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 ```
 Now verify the kubectl version
