@@ -1,0 +1,54 @@
+pipeline {
+	agent any
+
+		stages {
+			stage("Downloading openshift-installer binaries...") {
+			  when {
+				equals expected: "deploy", actual: params.ACTION
+			  }
+			  steps {
+				script {
+				  sh "make download"
+				}
+			  }
+			}    
+			stage("Creating DNS entries in Azure...") {
+			  when {
+				equals expected: "deploy", actual: params.ACTION
+			  }
+			  steps {
+				script {
+				  sh "make create-dns"
+				}
+			  }
+			}
+			stage("Verify DNS entries...") {
+			  when {
+				equals expected: "deploy", actual: params.ACTION
+			  }
+			  steps {
+				script {
+				  sh "make verify-dns"
+				}
+			  }
+			}
+			stage("Create Openshift Cluster...") {
+			  when {
+				equals expected: "deploy", actual: params.ACTION
+			  }
+			  steps {
+				script {
+				  sh "make create-oc-cluster"
+				}
+			  }
+			}    
+		}
+
+		//  post {
+		//    always {
+		//      sh "make cleanup"
+		//      //deleteDir()
+		//      //cleanWs()
+		//    }
+		//  }
+	}
