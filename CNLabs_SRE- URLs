@@ -1,12 +1,12 @@
 Jenkins : http://jenkins.in.hclcnlabs.com:8080/
 Litmus  : 
-Gremlin  :
+Gremlin  : https://app.gremlin.com/login
 Dynatrace : https://rsa14174.live.dynatrace.com/
 Demo App - Online Boutique : http://172.17.14.107/
 CN Lab APP : http://172.17.14.107:31113/
 VMware Client : https://inlabpowvcs01.hclcnlabs.com/
 OCP Console : https://oauth-openshift.apps.noi-r940-sre-c1.hclcnlabs.com/
 Palo Alto : https://172.17.10.1/php/login.php
-KMP : 
+KMP : https://172.17.14.107:31477/login.html
 EFK Centralised : https://kibana-openshift-logging.apps.noi-intel-ocp4-util.hclcnlabs.com
 Grafana Dashboard : http://prometheus.in.hclcnlabs.com:3000/login
