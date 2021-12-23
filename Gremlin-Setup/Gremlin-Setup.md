@@ -18,16 +18,24 @@ To add a VM or a kubernetes cluster into Gremlin Chaos , we need to install Grem
 ## Installing to VM (Ubuntu)
 
 1. Add packages needed to install and verify gremlin (already on many systems)
-```sudo apt update && sudo apt install -y apt-transport-https dirmngr```
+```
+sudo apt update && sudo apt install -y apt-transport-https dirmngr
+```
 
 2. Add the Gremlin repo
-```echo "deb https://deb.gremlin.com/ release non-free" | sudo tee /etc/apt/sources.list.d/gremlin.list```
+```
+echo "deb https://deb.gremlin.com/ release non-free" | sudo tee /etc/apt/sources.list.d/gremlin.list
+```
 
 3. Import the GPG key
-```sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9CDB294B29A5B1E2E00C24C022E8EF3461A50EF6```
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9CDB294B29A5B1E2E00C24C022E8EF3461A50EF6
+```
 
 4. Install Gremlin client and daemon
-```sudo apt update && sudo apt install -y gremlin gremlind```
+```
+sudo apt update && sudo apt install -y gremlin gremlind
+```
 
 if you need to install to any other linux distribution, more details can be found at : https://www.gremlin.com/docs/infrastructure-layer/installation/ 
 
