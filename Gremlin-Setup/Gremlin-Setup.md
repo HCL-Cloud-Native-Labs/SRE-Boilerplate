@@ -93,3 +93,12 @@ helm install gremlin/gremlin \
     --set gremlin.secret.teamSecret=$GREMLIN_TEAM_SECRET
 ```
 Once the agent has been installed , you can check the same on your Gremlin dashboard by checking under Active Clients ( Hosts/Kubernetes).
+
+Additionally you can verify the installation by listing all the pods in the Gremlin namespace. The output for list of pods and services should looks like below : 
+
+list of pods 
+<Insert-details-here-from-cluster>
+list of svc
+<Insert-details-svc>
+ 
+**Additional consideration for installing on OpenShift** 
