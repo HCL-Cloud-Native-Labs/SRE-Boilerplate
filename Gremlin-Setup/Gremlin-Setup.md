@@ -101,4 +101,22 @@ list of pods
 list of svc
 <Insert-details-svc>
  
-**Additional consideration for installing on OpenShift** 
+**Additional Steps for installing on OpenShift** 
+In SRE Lab we have setup the Gremlin agent on an OpenShift Cluster and there are some more steps that we need to do for the installation on OpenShift.
+**Install Gremlin SELinux policy**
+As Openshift uses SELinux, Gremlin requires a custom SELinux policy to grant the minimal permissions needed. You can install either Using SSH, or Using Gremlin Machine Config Operator as available at github repo : https://github.com/gremlin/field-solutions/tree/main/gremlin-ocp4-mc 
+ 
+We have used the Gremlin Machine Config Operator , but you can use either of the methods as listed below :
+
+**Using SSH**
+On every OpenShift node, run the following command to install the SELinux module
+```
+curl -fsSL https://github.com/gremlin/selinux-policies/releases/download/v0.0.3/selinux-policies-v0.0.3.tar.gz -o selinux-policies-v0.0.3.tar.gz
+tar xzf selinux-policies-v0.0.3.tar.gz
+sudo semodule -i selinux-policies-v0.0.3/gremlin-openshift4.cil
+```
+ 
+**Using Gremlin Machine Config Operator**
+Above process of installing the SElinux policy using SSH can be repetitive if the cluster contains a large number of nodes and hence the method of using the operator is recommeded in Production OpenShift cluster. Gremlin provides an open-source Machine Config Operator (MCO) for installing the Gremlin SELinux policy to Worker nodes using the Openshift 4 Command-Line Interface (CLI). The MCO files and instructions are available from the Gremlin Field Solutions GitHub repository : https://github.com/gremlin/field-solutions/tree/main/gremlin-ocp4-mc
+
+
