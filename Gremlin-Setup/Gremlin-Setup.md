@@ -139,8 +139,10 @@ You would need to modify the above files to modify te below fields :
 
 To apply to Openshift 4.1 - 4.5 cluster:
 
-oc create -f 95-worker-gremlin-semodule.yaml
+``oc create -f 95-worker-gremlin-semodule.yaml``
 
 To apply to Openshift 4.6+ cluster:
 
-oc create -f 96-worker-gremlin-semodule.yaml
+``oc create -f 96-worker-gremlin-semodule.yaml``
+
+You can now run the installation of Gremlin agent as detailed earlier in this manual.
