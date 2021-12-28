@@ -5,6 +5,7 @@ Grafana installation can be done as part of the kube-prometheus Prometheus Opera
 The github repo for kube-prometheus can be found at : https://github.com/prometheus-operator/kube-prometheus
 
 **Installing Grafana on Kubernetes**
+----------------------------------------
 
 The below steps can be followed to install Grafana on to a kubernetes cluster :
 
@@ -33,7 +34,10 @@ kubectl expose <grafana-deployment-name>
 Access Grafana Server by accessing the NodePort Service Created by accessing URL : https://<Node-IP>:<PORT-Exposed> (keep the node port exposed on the port 3000 to keep it simple.). The default login credentials for Grafana would be admin/admin which can then be changed on the first login. 
 
 **Adding a new Data Source in Grafana**
+-----------------------------------------
   
 **Creating a Dashboard in Grafana**
+------------------------------------------
 
 **Exploring Telemetry Data in Grafana**
+-------------------------------------------
