@@ -32,7 +32,7 @@ kubectl apply -f nodeExporter*.yaml -n monitoring
 ```
 4. Check the pods created in the monitoring namespace to check if prometheus operator pod , prometheus server pod, alertmanager and node-exporter pods have been created and are running. Also check the services to make sure that Prometheus is running on port 9090, alert-manager is running on port 9091 (ClusterIP). 
 
-``
+```
 kubectl get pods,svc -n monitoring
 
 ```
@@ -42,5 +42,5 @@ kubectl get pods,svc -n monitoring
 ```
 kubectl get deployments -n monitoring | grep -i prometheus # get the prometheus deployment name 
 kubectl expose <prometheus-deployment-name>
- ```
+```
 
