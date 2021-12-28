@@ -43,3 +43,6 @@ kubectl get deployments -n monitoring | grep -i prometheus # get the prometheus 
 kubectl expose <prometheus-deployment-name>
 ```
 Access Prometheus Server by accessing the NodePort Service Created by accessing URL : https://<Node-Name>:<Port> (keep the node port exposed on the port 9090 to keep it simple.)
+  
+Prometheus is pair with Grafana for the visualisation of metrics and creation of required dashboards . Grafana installation instructions can be found at : https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/Grafana-Install/grafana-install.md 
+
