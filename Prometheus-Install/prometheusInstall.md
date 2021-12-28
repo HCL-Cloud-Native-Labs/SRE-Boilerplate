@@ -34,7 +34,6 @@ kubectl apply -f nodeExporter*.yaml -n monitoring
 
 ```
 kubectl get pods,svc -n monitoring
-
 ```
 
 5. To access the prometheus server , expose the pod by either using port forwarding or by exposing prometheus server.
@@ -43,4 +42,4 @@ kubectl get pods,svc -n monitoring
 kubectl get deployments -n monitoring | grep -i prometheus # get the prometheus deployment name 
 kubectl expose <prometheus-deployment-name>
 ```
-
+Access Prometheus Server by accessing the NodePort Service Created by accessing URL : https://<Node-Name>:<Port> (keep the node port exposed on the port 9090 to keep it simple.)
