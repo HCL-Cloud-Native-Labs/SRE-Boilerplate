@@ -35,9 +35,14 @@ Access Grafana Server by accessing the NodePort Service Created by accessing URL
 
 **Adding a new Data Source in Grafana**
 -----------------------------------------
+<To Be added with screenshots from Grafana UI>
   
 **Creating a Dashboard in Grafana**
 ------------------------------------------
+<To Be added with screenshots from Grafana UI>
 
 **Exploring Telemetry Data in Grafana**
 -------------------------------------------
+<To Be added with screenshots from Grafana UI>
+
+  
