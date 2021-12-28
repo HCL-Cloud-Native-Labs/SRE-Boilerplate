@@ -29,20 +29,20 @@ kubectl get pods,svc -n monitoring
 5. To access the Grafana server , expose the pod by either using port forwarding or by exposing prometheus server.
 ```
 kubectl get deployments -n monitoring | grep -i grafana # get the grafana deployment name 
-kubectl expose <grafana-deployment-name>
+kubectl expose grafana-deployment-name
 ```
-Access Grafana Server by accessing the NodePort Service Created by accessing URL : https://<Node-IP>:<PORT-Exposed> (keep the node port exposed on the port 3000 to keep it simple.). The default login credentials for Grafana would be admin/admin which can then be changed on the first login. 
+Access Grafana Server by accessing the NodePort Service Created by accessing URL : https://Node-IP:PORT-Exposed (keep the node port exposed on the port 3000 to keep it simple.). The default login credentials for Grafana would be admin/admin which can then be changed on the first login. 
 
 **Adding a new Data Source in Grafana**
 -----------------------------------------
-<To Be added with screenshots from Grafana UI>
+To Be added with screenshots from Grafana UI
   
 **Creating a Dashboard in Grafana**
 ------------------------------------------
-<To Be added with screenshots from Grafana UI>
+To Be added with screenshots from Grafana UI
 
 **Exploring Telemetry Data in Grafana**
 -------------------------------------------
-<To Be added with screenshots from Grafana UI>
+To Be added with screenshots from Grafana UI
 
   
