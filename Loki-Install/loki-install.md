@@ -76,3 +76,7 @@ kubectl apply -f promtail-sidecar-deployment.yaml
 ```
 kubectl get pods -n loki
 ```
+Also note that before you can recieve the logs into Loki , you would have to configure promtail. Promtail configuration details can be found at : https://grafana.com/docs/loki/latest/clients/promtail/configuration/ . 
+
+The configuration format follows a YAML format and has quite extensive options, which are out of scope for this manual.
+
