@@ -63,7 +63,7 @@ kubectl describe pod POD_NAME
 ```
 kubectl apply -f samples/addons/jaeger
 kubectl rollout status deployment/jaeger -n istio-system
-``
+```
 2. Once the deployment status is running, check the pods in the istio-system namespace
 ```
 kubectl get pods, svc -n istio-system
