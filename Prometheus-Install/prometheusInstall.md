@@ -30,6 +30,14 @@ kubectl apply -f prometheus*.yaml -n monitoring
 Kubectl apply -f alertmanager*.yaml -n monitoring
 kubectl apply -f nodeExporter*.yaml -n monitoring
 ```
+
+Here it is assumed that the namespace "monitoring" is already created. if not present on the cluster create using the below command :
+
+```
+kubectl create ns monitoring
+```
+Note : Running commands without `` -n monitoring `` would also work because the manifests have the namespace "monitoring" listed in. But in case you are looking to install these as part of any other namespace then you would need to update all the manifest to put the namespace name.
+
 4. Check the pods created in the monitoring namespace to check if prometheus operator pod , prometheus server pod, alertmanager and node-exporter pods have been created and are running. Also check the services to make sure that Prometheus is running on port 9090, alert-manager is running on port 9091 (ClusterIP). 
 
 ```
