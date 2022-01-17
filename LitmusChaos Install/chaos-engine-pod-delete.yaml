@@ -1,0 +1,23 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: engine-nginx
+spec:
+  engineState: "active"
+  annotationCheck: "false"
+  appinfo:
+    appns: "sockshop-production"
+    applabel: "app=carts"
+    appkind: "deployment"
+  chaosServiceAccount: sockshop-chaos-sa
+  experiments:
+  - name: pod-delete
+    spec:
+      components:
+        env:
+        # provided as true for the force deletion of pod
+        # supports true and false value
+        - name: FORCE
+          value: 'true'
+        - name: TOTAL_CHAOS_DURATION
+          value: '60'
