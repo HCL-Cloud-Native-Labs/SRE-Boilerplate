@@ -92,6 +92,6 @@ Kubernetes monitoring successfully setup
 3. Once the agent has been setup properly , you can check in the Dynatrace portal Under the "Workloads" and "Services" section and you should be able to see details of your clusters ( Workloads, Pods, Services etc.) discovered in Dynatrace. 
 For the application traces , Dynatrace natively picks up traces and metrics from applications in most langauges (like Java, NodeJS, Go , Python etc.). But if there are some applications for which the traces are not getting picked up , the application can be instrumented with the Dynaytrace OneAgent SDK. 
 
-Dyntrace OneAgent SDK : https://www.dynatrace.com/support/help/extend-dynatrace/oneagent-sdk 
-Dyntrace Technology Support Matrix : https://www.dynatrace.com/support/help/technology-support/oneagent-platform-and-capability-support-matrix 
+  - Dyntrace OneAgent SDK : https://www.dynatrace.com/support/help/extend-dynatrace/oneagent-sdk 
+  - Dyntrace Technology Support Matrix : https://www.dynatrace.com/support/help/technology-support/oneagent-platform-and-capability-support-matrix 
 
