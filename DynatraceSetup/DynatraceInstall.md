@@ -7,6 +7,12 @@ In CNL Labs we are using Dyntrace to observe our kubernetes clusters and below s
 
 Deploying Dynatrace on Kubernetes Cluster :
 ---------------------------------------------
+Dynatrace OneAgent is installed on a Kubernetes cluster using the DynaKube Operator. This means that the installation script first installs the required Custom Resources on the cluster, creates and starts a DynaKube Operator Pod and then instantiates a Dynatrace OneAgent Custom Resource Object. The script also creates a namespace on the cluster called "Dynatrace" which holds all the Dynatrace related objects.
+
+Dyntrace Operator works like a controller to make sure that the Dynatrace OneAgent Custom Resource (and supporting native objects like pods, services etc.) are all up and running as per the requied configuration. 
+
+To install Dynatrace OneAgent follow the below steps :
+
 1. From the cluster console run the below command to get installation script:
 ```
 wget https://github.com/dynatrace/dynatrace-operator/releases/latest/download/install.sh -O install.sh
@@ -83,3 +89,9 @@ dynakube.dynatrace.com/dynakube created
 Adding cluster to Dynatrace...
 Kubernetes monitoring successfully setup
 ```
+3. Once the agent has been setup properly , you can check in the Dynatrace portal Under the "Workloads" and "Services" section and you should be able to see details of your clusters ( Workloads, Pods, Services etc.) discovered in Dynatrace. 
+For the application traces , Dynatrace natively picks up traces and metrics from applications in most langauges (like Java, NodeJS, Go , Python etc.). But if there are some applications for which the traces are not getting picked up , the application can be instrumented with the Dynaytrace OneAgent SDK. 
+
+Dyntrace OneAgent SDK : https://www.dynatrace.com/support/help/extend-dynatrace/oneagent-sdk 
+Dyntrace Technology Support Matrix : https://www.dynatrace.com/support/help/technology-support/oneagent-platform-and-capability-support-matrix 
+
