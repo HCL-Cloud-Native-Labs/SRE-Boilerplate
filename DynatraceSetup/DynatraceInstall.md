@@ -19,7 +19,7 @@ wget https://github.com/dynatrace/dynatrace-operator/releases/latest/download/in
 ```
 2. Once downloaded run the install script . Installation output similar to below should be produced :
 ```
-sh ./install.sh --api-url "https://rsa14174.live.dynatrace.com/api" --api-token "dt0c01.T2OSBVLJ32DCEUMM7GWGDM5W.C3FLRXCTK3KXF2Z6FNOXFCLZMKKV2ANYR4UFGPW6H4WFQRGR6OVX2HJMVWKKQNQH" --paas-token "dt0c01.LJ3GFYHMZC2D47D7WGD7E5TJ.E6VTA7RKQATJRHSEWPFYJDPQLHHSKQPQ5T2H6QOGBKBJRMY77FMQOBCOGDURF5DJ" --cluster-name "sre-aks-1"
+sh ./install.sh --api-url "https://rsa14174.live.dynatrace.com/api" --api-token <API_TOKEN> --paas-token <API_TOKEN> --cluster-name "sre-aks-1"
 
 Check for token scopes...
 
