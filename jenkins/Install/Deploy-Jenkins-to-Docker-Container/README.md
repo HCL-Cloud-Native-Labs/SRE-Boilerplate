@@ -243,3 +243,5 @@ Then, run the updated Jenkins image whilst passing in the JENKINS_USER and JENKI
 Run updated Jenkins image as docker in detach mode (by adding -detach or -d in short)
     
     docker run -d --name jenkins --rm -p 8080:8080  --env JENKINS_USER=admin --env JENKINS_PASS=admin jenkins:jcasc
+
+The source code is available in [github repository](https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/tree/main/jenkins/Install/Deploy-Jenkins-to-Docker-Container)
