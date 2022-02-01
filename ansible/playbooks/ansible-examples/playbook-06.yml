@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+    - name: creates users files
+      file:
+        path: /tmp/ansible-{{ item }}
+        state: touch
+      loop:
+        - prem
+        - chandra
+        - sumit
+        - sai
