@@ -41,5 +41,5 @@ jobs:
           context: "{{defaultContext}}:WhaleDemo-docker"
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:latest
+          tags: hclcloudnativelabs/simplewhale:latest
 
