@@ -1,4 +1,4 @@
-Flow for Demo : 
+**Flow for Demo :** 
 
 What is Kubernetes primitive objects ( Pods ,Services, deployments etc.) 
 What is Helm 
