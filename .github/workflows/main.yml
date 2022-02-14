@@ -25,6 +25,9 @@ jobs:
       -
         name: Checkout 
         uses: actions/checkout@v2
+        with:
+          repository: HCL-Cloud-Native-Labs/SRE-Boilerplate/WhaleDemo-docker
+          path: SRE-Boilerplate/WhaleDemo-docker
       -
         name: Login to Docker Hub
         uses: docker/login-action@v1
