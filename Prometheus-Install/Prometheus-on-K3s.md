@@ -1,5 +1,33 @@
+Flow for Demo : 
 
-**Installing Helm : **
+What is Kubernetes primitive objects ( Pods ,Services, deployments etc.) 
+What is Helm 
+What is Operator Pattern 
+Helm Overview and Install 
+Lens Overview and Install 
+Prometheus Grafana Install using Kube-Operator 
+Grafana Overview
+Check datasources , how to add them 
+Check Dashboards , how to create a new one/import a new one (Kubernetes API Server , SLO details etc) 
+
+Login to Prometheus 
+	Look at Targets 
+	Looks at AlertManager Rules
+	Configuration view 
+	
+Explain Node_exporters , Service Monitors, Pod Monitors
+Prometheus Metric Types 
+		Counter
+		Gauge
+		Histogram
+		Summary
+Sample instrumentation using Python  and show how the endpoint will expose the metrics 
+Loki & Promtail installation & configuration 
+Explore metrics and Logs from Grafana
+
+
+
+**Installing Helm :**
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 $ chmod 700 get_helm.sh
