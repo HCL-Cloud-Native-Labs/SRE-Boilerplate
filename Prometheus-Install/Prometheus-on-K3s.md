@@ -1,29 +1,31 @@
 **Flow for Demo :** 
 
--What is Kubernetes primitive objects ( Pods ,Services, deployments etc.) 
--What is Helm 
--What is Operator Pattern 
--Helm Overview and Install 
--Lens Overview and Install 
--Prometheus Grafana Install using Kube-Operator 
--Grafana Overview
--Check datasources , how to add them 
--Check Dashboards , how to create a new one/import a new one (Kubernetes API Server , SLO details etc) 
-
--Login to Prometheus 
-	-Look at Targets 
-	-Looks at AlertManager Rules
-	-Configuration view 
+1. What is Kubernetes primitive objects ( Pods ,Services, deployments etc.) 
+2. What is Helm 
+3. What is Operator Pattern 
+4. Helm Overview and Install 
+5. Lens Overview and Install 
+6. Prometheus Grafana Install using Kube-Operator 
+7. Grafana Overview
+8. Check datasources , how to add them 
+9. Check Dashboards , how to create a new one/import a new one (Kubernetes API Server , SLO details etc) 
+10. Login to Prometheus 
+	- Look at Targets 
+	- Looks at AlertManager Rules
+	- Configuration view 
 	
--Explain Node_exporters , Service Monitors, Pod Monitors
--Prometheus Metric Types 
-		-Counter
-		-Gauge
-		-Histogram
-		-Summary
--Sample instrumentation using Python  and show how the endpoint will expose the metrics 
--Loki & Promtail installation & configuration 
--Explore metrics and Logs from Grafana
+11. Explain Node_exporters , Service Monitors, Pod Monitors
+12. Prometheus Metric Types 
+		- Counter
+		- Gauge
+		- Histogram
+		- Summary
+13. Sample instrumentation using Python  and show how the endpoint will expose the metrics 
+14. Loki & Promtail installation & configuration 
+15. Explore metrics and Logs from Grafana
+16. Show sample configuration from Vendor based/PasS tools - to add a cluster 
+	- Dynatrace
+	- AppDynamics
 
 
 
