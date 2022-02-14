@@ -25,6 +25,3 @@ jobs:
       -
         name: Checkout 
         uses: actions/checkout@v2
-        with:
-          repository: SRE-Boilerplate
-          path: WhaleDemo-docker
