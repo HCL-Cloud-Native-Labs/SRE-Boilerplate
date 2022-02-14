@@ -23,7 +23,7 @@
 13. Sample instrumentation using Python  and show how the endpoint will expose the metrics 
 14. Loki & Promtail installation & configuration 
 15. Explore metrics and Logs from Grafana
-16. Show sample configuration from Vendor based/PasS tools - to add a cluster 
+16. Show sample configuration from Vendor based/PaaS tools - to add a cluster 
 	- Dynatrace
 	- AppDynamics
 
