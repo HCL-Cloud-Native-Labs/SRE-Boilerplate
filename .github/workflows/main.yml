@@ -47,6 +47,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:${{ steps.vars.outputs.sha_short }}
+        #  push: true
+        #  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:${{ steps.vars.outputs.sha_short }}
+          push: false
+          tags: ${{ github.event.repository.name }}:latest, ${{ github.repository }}:latest
 
