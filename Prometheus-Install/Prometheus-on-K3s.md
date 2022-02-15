@@ -40,7 +40,7 @@ $ ./get_helm.sh
 
 Download Lens IDE from https://k8slens.dev/ as per the Client OS and install
 
-**Installing Prometheus Operator : **
+**Installing Prometheus Operator :**
 
 Github repo for Prometheus Operator : https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack 
 
