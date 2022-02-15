@@ -37,4 +37,4 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:$(date +%s)
         
       - name: Docker Push
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:$(date +%s)
