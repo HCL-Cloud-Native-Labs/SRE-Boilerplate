@@ -16,10 +16,10 @@
 	
 11. Explain Node_exporters , Service Monitors, Pod Monitors
 12. Prometheus Metric Types :
-		- Counter
-		- Gauge
-		- Histogram
-		- Summary
+	- Counter
+	- Gauge
+	- Histogram
+	- Summary
 13. Sample instrumentation using Python  and show how the endpoint will expose the metrics 
 14. Loki & Promtail installation & configuration 
 15. Explore metrics and Logs from Grafana
