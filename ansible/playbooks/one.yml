@@ -1,4 +1,0 @@
-- hosts: ubuntu
-  tasks:
-    - debug:
-        msg: "{{ansible_local.sample.ENV}}"

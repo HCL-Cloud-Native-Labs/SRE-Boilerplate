@@ -1,4 +1,0 @@
----
- - hosts: aws
-   roles:
-     - role1
