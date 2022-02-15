@@ -15,7 +15,7 @@
 	- Configuration view 
 	
 11. Explain Node_exporters , Service Monitors, Pod Monitors
-12. Prometheus Metric Types 
+12. Prometheus Metric Types :
 		- Counter
 		- Gauge
 		- Histogram
