@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:v2.0
+          tags: docker.io/prempalsingh/simplewhale:v2.0
           #tags: docker.io/hclcloudnativelabs/online-boutique:v1.0
 
 
