@@ -174,7 +174,7 @@ NOTES:
 
 Verify the application is working by running these commands:
 
-* kubectl --namespace default port-forward daemonset/promtail 3101
+* kubectl --namespace loki port-forward daemonset/promtail 3101
 * curl http://127.0.0.1:3101/metrics
 ```
 
