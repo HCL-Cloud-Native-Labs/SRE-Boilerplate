@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/whaledemo/simplewhale:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:v1.0
 
 
 
