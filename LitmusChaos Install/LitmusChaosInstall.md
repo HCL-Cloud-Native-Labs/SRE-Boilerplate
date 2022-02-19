@@ -43,6 +43,58 @@ Your release is named chaos and it's installed to namespace: litmus.
 Visit https://docs.litmuschaos.io to find more info.
 **Note**: *Litmus uses Kubernetes CRDs to define chaos intent. Helm3 handles CRDs better than Helm2. Before you start running a chaos experiment, verify if Litmus is installed correctly.*
 
+**Step-4**: Create PersistentVolume and PersistentVolumeClaim 
+
+You would notice that the pods created under will be in pending status because of the fact that they are waiting for the mongo-db pod to start and run. And when you examine the mongo-db pod you would notice that mongo-db pod is not starting because its PVC is unfulfilled. 
+
+We need to therefore create a persistentVolume and attach PersistenntVolumeClaim to it. 
+
+PersistentVolume Manifest :
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv1
+spec:
+  accessModes:
+  - ReadWriteOnce
+  - ReadOnlyMany
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: /data/mongodb-volume/
+    type: ""
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: mongodb-pv1
+  volumeMode: Filesystem
+status:
+  phase: Available
+```
+
+PersistentVolumeClaim Manifest :
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: litmus-database
+  name: mongo-persistent-storage-mongo-0
+  namespace: litmus
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+  storageClassName: mongodb-pv1
+```
+
+
 ## Install Litmus using kubectl
 
 **Step-1** : Install using the manifest from LitmusChaos github
