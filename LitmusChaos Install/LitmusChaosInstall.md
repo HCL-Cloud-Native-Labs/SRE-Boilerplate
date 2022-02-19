@@ -93,7 +93,24 @@ spec:
   volumeMode: Filesystem
   storageClassName: mongodb-pv1
 ```
+Create both object , first PV and then PVC : 
+```
+kubectl apply -f mongodb-pv.yaml -n litmus
+persistentvolume/mongodb-pv1 created
 
+kubectl apply -f mongodb-pvc.yaml -n litmus
+persistentvolumeclaim/mongo-persistent-storage-mongo-0 created
+```
+
+Now if you check , the pods should have their status as "Running" :
+
+```
+kubectl get pods -n litmus
+NAME                                     READY   STATUS    RESTARTS   AGE
+chaos-litmus-frontend-5ddf54d47b-pwxm9   1/1     Running   0          13m
+chaos-litmus-mongo-0                     1/1     Running   0          13m
+chaos-litmus-server-674d4bb6bb-6lhsv     2/2     Running   0          13m
+```
 
 ## Install Litmus using kubectl
 
