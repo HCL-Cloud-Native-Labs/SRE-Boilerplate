@@ -112,6 +112,33 @@ chaos-litmus-mongo-0                     1/1     Running   0          13m
 chaos-litmus-server-674d4bb6bb-6lhsv     2/2     Running   0          13m
 ```
 
+Now to access Litmus front-end portal, we would need to expose the Frontend service. This can be done by creating a NodePort type of service (https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport). 
+
+An example yaml can be as below : 
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: litmus-service
+spec:
+  type: NodePort
+  selector:
+          app.kubernetes.io/name: litmus
+  ports:
+    - nodePort: 30001
+      port: 8080
+      targetPort: 8080
+```
+Before creating a nodePort Service also check the existing services inside the litmus namespace, because the installation creates a couple of nodePort services already ( for FrontEnd and For Chaos Server). Therefore in this case we can use these existing services to access Litmus Portal. 
+
+```
+kubectl get svc -n litmus | grep -i nodePort
+chaos-litmus-frontend-service   NodePort    10.43.242.24    <none>        9091:30814/TCP                                                25h
+chaos-litmus-server-service     NodePort    10.43.171.236   <none>        9002:30399/TCP,9003:32238/TCP,8000:30238/TCP,3030:30187/TCP   25h
+```
+
+
 ## Install Litmus using kubectl
 
 **Step-1** : Install using the manifest from LitmusChaos github
