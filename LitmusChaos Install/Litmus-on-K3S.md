@@ -7,6 +7,8 @@ Installation of Litmus can be done using either of the below methods :
 1. Helm3 chart
 2. Kubectl yaml spec file
 
+Here we will show the Helm method to install LitmusChaos. 
+
 ## Install Litmus using Helm
 
 The helm chart will install all the required service account configuration and ChaosCenter.The following steps will help you install Litmus ChaosCenter via helm.
