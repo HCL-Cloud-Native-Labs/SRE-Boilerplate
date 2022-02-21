@@ -140,5 +140,33 @@ chaos-litmus-frontend-service   NodePort    10.43.242.24    <none>        9091:3
 chaos-litmus-server-service     NodePort    10.43.171.236   <none>        9002:30399/TCP,9003:32238/TCP,8000:30238/TCP,3030:30187/TCP   25h
 ```
 ## Installing Litmus Agent
+For running the chaos experiment, we need to have a litmus agent installed on the kubernetes cluster. In case of Litmus Control Plane Server, installed on the same server (which is the case for us in this demo), Litmus Agent would be installed once we login to Litmus Control Plane front end for the first time.
 
+To get to the Control plane FrontEnd use URL : https://<K3S-Node-IP>:<NodePortService-Port>
+  
+The admin-username and admin-password for Litmus Frontend is stored in a secret called "chaos-litmus-admin-secret" in Litmus namespace. These details can be extracted using below commands: 
+  
+```
+kubectl get secret chaos-litmus-admin-secret -o jsonpath="{.data.ADMIN_USERNAME}" -n litmus | base64 --decode ; echo
+admin
+kubectl get secret chaos-litmus-admin-secret -o jsonpath="{.data.ADMIN_PASSWORD}" -n litmus | base64 --decode ; echo
+litmus
+```
+Use the above credentials into Litmus Frontend .Once you have logged in successfully, come back and check to make sure the new pods specific to Litmus Agent have also been added to Litmus namespace. 
+ 
+Output should look something like the below : 
+```
+kubectl get pods -n litmus 
+NAME                                     READY   STATUS    RESTARTS   AGE
+chaos-litmus-frontend-5ddf54d47b-pwxm9   1/1     Running   0          44h
+chaos-litmus-mongo-0                     1/1     Running   0          44h
+chaos-litmus-server-674d4bb6bb-6lhsv     2/2     Running   0          44h
+subscriber-8dcbf4885-ppm58               1/1     Running   0          43h
+chaos-exporter-577df9956f-mcfwc          1/1     Running   0          43h
+chaos-operator-ce-7656c66856-q7f7k       1/1     Running   0          43h
+event-tracker-797965c47-hkz59            1/1     Running   0          43h
+workflow-controller-6fd4597874-9dh4m     1/1     Running   0          43h
+```
+
+  
 ## Running Chaos Experiments 
