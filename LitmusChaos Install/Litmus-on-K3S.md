@@ -170,3 +170,178 @@ workflow-controller-6fd4597874-9dh4m     1/1     Running   0          43h
 
   
 ## Running Chaos Experiments 
+
+Litmus Chaos Experiments are run using the Custom Resources which are installed as part of LitmusChaos Installation. 
+  
+```
+kubectl get crd | grep -i chaos
+chaosengines.litmuschaos.io                        2022-02-19T17:40:11Z
+chaosexperiments.litmuschaos.io                    2022-02-19T17:40:11Z
+chaosresults.litmuschaos.io                        2022-02-19T17:40:11Z
+eventtrackerpolicies.eventtracker.litmuschaos.io   2022-02-19T17:40:11Z
+```
+The first three CRD's , ChaosEngine , ChaosExperiments and ChaosResults are the ones which are used in creating and running a chaos experiments. 
+
+Also we would need a sample app where we can run the chaos-experiemnt ( we will run a pod-delete in this exercise). So we would need to install a sample app. 
+
+Here we will take a very basic app example and deploy the app pod by creating a deployment in default namespace :
+```
+kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+
+kubectl get pods 
+NAME                                   READY   STATUS    RESTARTS   AGE
+kubernetes-bootcamp-57978f5f5d-hpvh6   1/1     Running   0          84s
+```
+Now we will need to design and run a chaos experiment to delete a pod for this deployment : 
+
+  1. Start by annotating the deployment or the namespace against which you need to run the experiment(``litmuschaos.io/chaos="true"``). For example the below command would annotate the **nginx** deployment. 
+
+```
+kubectl annotate deploy/kubernetes-bootcamp litmuschaos.io/chaos="true"
+```
+  2. Create the RBAC objects ( Service Account, Role and RoleBinding) which will be used to create and execute the ChaosExperiments. It can be done by using the below manifest :
+
+```
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: chaos-sa
+  namespace: default
+  labels:
+    name: chaos-sa
+    app.kubernetes.io/part-of: litmus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: chaos-sa
+  namespace: default
+  labels:
+    name: chaos-sa
+    app.kubernetes.io/part-of: litmus
+rules:
+  # Create and monitor the experiment & helper pods
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create","delete","get","list","patch","update", "deletecollection"]
+  # Performs CRUD operations on the events inside chaosengine and chaosresult
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create","get","list","patch","update"]
+  # Fetch configmaps details and mount it to the experiment pod (if specified)
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get","list",]
+  # Track and get the runner, experiment, and helper pods log 
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get","list","watch"]  
+  # for creating and managing to execute comands inside target container
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["get","list","create"]
+  # deriving the parent/owner details of the pod(if parent is anyof {deployment, statefulset, daemonsets})
+  - apiGroups: ["apps"]
+    resources: ["deployments","statefulsets","replicasets", "daemonsets"]
+    verbs: ["list","get"]
+  # deriving the parent/owner details of the pod(if parent is deploymentConfig)  
+  - apiGroups: ["apps.openshift.io"]
+    resources: ["deploymentconfigs"]
+    verbs: ["list","get"]
+  # deriving the parent/owner details of the pod(if parent is deploymentConfig)
+  - apiGroups: [""]
+    resources: ["replicationcontrollers"]
+    verbs: ["get","list"]
+  # deriving the parent/owner details of the pod(if parent is argo-rollouts)
+  - apiGroups: ["argoproj.io"]
+    resources: ["rollouts"]
+    verbs: ["list","get"]
+  # for configuring and monitor the experiment job by the chaos-runner pod
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create","list","get","delete","deletecollection"]
+  # for creation, status polling and deletion of litmus chaos resources used within a chaos workflow
+  - apiGroups: ["litmuschaos.io"]
+    resources: ["chaosengines","chaosexperiments","chaosresults"]
+    verbs: ["create","list","get","patch","update","delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: chaos-sa
+  namespace: default
+  labels:
+    name: chaos-sa
+    app.kubernetes.io/part-of: litmus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: chaos-sa
+subjects:
+- kind: ServiceAccount
+  name: chaos-sa
+  namespace: default
+```
+Note down the names of the Objects created , specially the Service Account because this would need to be mentioned in other manifests. You would note that these objects are being created in the Application Namespace so that they would have access to Application resources.
+ 
+  3. Once you have created SA , you can then install all the ChaosExperiments (create the Custom Resources) to make sure these are availbale to you in the cluster.The arrangement of Custom Resources is such that **ChaosEngine** object connects **ChaosExperiment** to an **Application/Deployment** . The **ChaosEngine** object , once it finishes running , also updates the **ChaosResult** object. 
+
+There is a set of pre-defined ChaosExperiments and documentation for these can be found at : https://litmuschaos.github.io/litmus/experiments/categories/contents/ 
+
+All of the Experiments can be installed using the below command 
+```
+kubectl create -f https://hub.litmuschaos.io/api/chaos/2.3.0?file=charts/generic/experiments.yaml -n <APP_NAMESPACE>
+```
+Here APP_NAMESPACE would be the namespace when Application is installed ( in this case "de").
+
+Once the experiments have been installed , you can use below command to list out all the ChaosExperiemnt and go through the details of a ChaosExperiment.
+
+```
+kubectl get ChaosExperiment -n <APP_NAMESPACE>
+
+kubectl describe ChaosExperiment <CHAOS_EXPERIMENT_NAME> -n <APP_NAMESPACE>
+```
+
+4. Once all the required Experiments are installed , Create a **ChaosEngine** Object to connect ChaosExperiment with the Application. This manifest would also mention the ServiceAccount Object which we created earlier. 
+
+An example manifest would look like the below, this one runs a *pod-delete* experiment against kubernetes-bootcamp deployment in default namespace.  Make sure to run the manifest against the APP_NAMESPACE :
+```
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: pod-delete
+spec:
+  engineState: "active"
+  annotationCheck: "false"
+  appinfo:
+    appns: "default"
+    applabel: "app=kubernetes-bootcamp"
+    appkind: "deployment"
+  chaosServiceAccount: chaos-sa
+  experiments:
+  - name: pod-delete
+    spec:
+      components:
+        env:
+        # provided as true for the force deletion of pod
+        # supports true and false value
+        - name: FORCE
+          value: 'true'
+        - name: TOTAL_CHAOS_DURATION
+          value: '60'
+```
+Once the ChaosEngine object is created you can make sure that the ChaosEngine is created and running. 
+```
+kubectl get ChaosEngine -n <APP_NAMESPACE>
+
+kubectl describe ChaosEngine <CHAOS_ENGINE_NAME> -n <APP_NAMESPACE>
+```
+5. Check for any ChaosResult Objects created and their status (Success/Fail). 
+
+```
+kubectl get ChaosResult -n <APP_NAMESPACE>
+
+kubectl describe ChaosResult <CHAOS_RESULT_NAME> -n <APP_NAMESPACE>
+```
+More details can be found at : https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/contents/
