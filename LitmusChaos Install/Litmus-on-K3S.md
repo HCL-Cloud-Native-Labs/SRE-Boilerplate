@@ -337,6 +337,24 @@ kubectl get ChaosEngine -n <APP_NAMESPACE>
 
 kubectl describe ChaosEngine <CHAOS_ENGINE_NAME> -n <APP_NAMESPACE>
 ```
+Sample output for ChaosEngine related events would be as below : 
+```
+Events:
+  Type     Reason                         Age                   From                        Message
+  ----     ------                         ----                  ----                        -------
+  Normal   ChaosEngineInitialized         3m20s                 chaos-operator              Identifying app under test & launching pod-delete-runner
+  Warning  ChaosResourcesOperationFailed  3m20s                 chaos-operator              (chaos running) Unable to check chaos status
+  Normal   ExperimentDependencyCheck      3m7s                  pod-delete-runner           Experiment resources validated for Chaos Experiment: pod-delete
+  Normal   ExperimentJobCreate            3m7s                  pod-delete-runner           Experiment Job pod-delete-om1c18 for Chaos Experiment: pod-delete
+  Normal   PreChaosCheck                  2m35s                 pod-delete-om1c18--1-dd2q2  AUT: Running
+  Normal   ChaosInject                    100s (x7 over 2m35s)  pod-delete-om1c18--1-dd2q2  Injecting pod-delete chaos on application pod
+  Normal   PostChaosCheck                 87s                   pod-delete-om1c18--1-dd2q2  AUT: Running
+  Normal   Summary                        83s                   pod-delete-om1c18--1-dd2q2  pod-delete experiment has been Passed
+  Normal   ExperimentJobCleanUp           71s                   pod-delete-runner           Experiment Job pod-delete-om1c18 will be retained
+  Normal   ChaosEngineCompleted           71s                   chaos-operator              ChaosEngine completed, will delete or retain the resources according to jobCleanUpPolicy
+```
+It will mention in the events as to which pods executed the different actions and also if the ChaosExperiment was successfull or not(Passed/Failed). 
+  
 5. Check for any ChaosResult Objects created and their status (Success/Fail). 
 
 ```
@@ -344,4 +362,74 @@ kubectl get ChaosResult -n <APP_NAMESPACE>
 
 kubectl describe ChaosResult <CHAOS_RESULT_NAME> -n <APP_NAMESPACE>
 ```
+Sample output would look like below : 
+```
+kubectl describe ChaosResults pod-delete-pod-delete
+Name:         pod-delete-pod-delete
+Namespace:    default
+Labels:       app.kubernetes.io/component=experiment-job
+              app.kubernetes.io/part-of=litmus
+              app.kubernetes.io/version=2.3.0
+              chaosUID=77610660-8c97-4a6d-a0b0-b750e2ecd331
+              controller-uid=42edec6e-b3a9-418c-af2b-7ad5a03d5831
+              job-name=pod-delete-om1c18
+              name=pod-delete
+Annotations:  <none>
+API Version:  litmuschaos.io/v1alpha1
+Kind:         ChaosResult
+Metadata:
+  Creation Timestamp:  2022-02-21T15:19:25Z
+  Generation:          2
+  Managed Fields:
+    API Version:  litmuschaos.io/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .:
+          f:app.kubernetes.io/component:
+          f:app.kubernetes.io/part-of:
+          f:app.kubernetes.io/version:
+          f:chaosUID:
+          f:controller-uid:
+          f:job-name:
+          f:name:
+      f:spec:
+        .:
+        f:engine:
+        f:experiment:
+      f:status:
+        .:
+        f:experimentStatus:
+        f:history:
+    Manager:         experiments
+    Operation:       Update
+    Time:            2022-02-21T15:19:25Z
+  Resource Version:  88455
+  UID:               27ed613b-3398-4da3-8fdf-20481f51be74
+Spec:
+  Engine:      pod-delete
+  Experiment:  pod-delete
+Status:
+  Experiment Status:
+    Fail Step:                 N/A
+    Phase:                     Completed
+    Probe Success Percentage:  100
+    Verdict:                   Pass
+  History:
+    Failed Runs:   0
+    Passed Runs:   1
+    Stopped Runs:  0
+    Targets:
+      Chaos Status:  targeted
+      Kind:          deployment
+      Name:          kubernetes-bootcamp
+Events:
+  Type    Reason   Age    From                        Message
+  ----    ------   ----   ----                        -------
+  Normal  Awaited  4m43s  pod-delete-om1c18--1-dd2q2  experiment: pod-delete, Result: Awaited
+  Normal  Pass     3m27s  pod-delete-om1c18--1-dd2q2  experiment: pod-delete, Result: Pass
+```
+You would see that Initially when the ChaosEngine was running the Chaos Result was set to Awaited and when it finished it showed Pass , this is because in this simple experiemnt Kubernetes was able to recover the pod quickly without any disruption and therefore the ChaosEngine deemed the result as Pass. 
+
 More details can be found at : https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/contents/
