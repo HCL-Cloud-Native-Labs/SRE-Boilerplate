@@ -66,10 +66,16 @@ kube-prometheus-stack has been installed. Check its status by running:
 
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 ```
-Create a load balancer service to access Grafana :
+Create a NodePort service to access Grafana :
 
 ```
-kubectl patch svc prometheus-grafana -n monitoring -p '{"spec": {"type": "LoadBalancer"}}'
+kubectl patch svc prometheus-grafana -n monitoring -p '{"spec": {"type": "NodePort"}}'
+```
+
+Create a NodePort service to access Prometheus UI :
+
+```
+kubectl patch svc prometheus-kube-prometheus-prometheus -n monitoring -p '{"spec": {"type": "NodePort"}}'
 ```
 
 
