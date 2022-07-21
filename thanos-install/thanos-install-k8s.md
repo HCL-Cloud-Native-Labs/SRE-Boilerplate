@@ -14,6 +14,48 @@ Minio installation is done using minio chart : https://github.com/bitnami/charts
 
 Thanos is setup on SRE-K8s-CNL cluster in Noida. 3 Node Cluster , Native K8S, servers are sremaster, srenode1, srenode2.  
 
+## Creating Required PV/Storage Class :
+
+This step would not be required when using a kubernetes installation with a default storage class. But in case you need to create Persistent Volumes (PV) manually then the below 4 PV's would need to be created :
+
+  1. Minio PV
+  2. Thanos storegateway PV
+  3. Thanos Compactor PV
+  4. Thanos Ruler PV 
+
+Example yaml files for all these PV's are present in the repository. Just create these in your cluster by using 
+
+`` kubectl apply -f <filename>``
+
+make sure to list to check all the pv to see that they are available and ready to bind : 
+```
+kubectl get pv 
+NAME                            CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                   STORAGECLASS                    REASON   AGE
+data-thanos-ruler-0-pv          8Gi        RWO,ROX        Retain           Bound    monitoring/data-thanos-ruler-0          data-thanos-ruler-0-pv                   70d
+data-thanos-storegateway-0-pv   8Gi        RWO,ROX        Retain           Bound    monitoring/data-thanos-storegateway-0   data-thanos-storegateway-0-pv            70d
+thanos-compactor-pv             8Gi        RWO,ROX        Retain           Bound    monitoring/thanos-compactor             thanos-compactor-pv                      70d
+thanos-minio-pv                 8Gi        RWO,ROX        Retain           Bound    monitoring/thanos-minio                 thanos-minio-pv                          70d
+```
+
+## Install and SetUp minio 
+
+Minio is being used in the thanos setup to provide with an Object Storage API. It provided with an S3 compatible endpoint which then exposes local/NFS storage at the backend. At the backend we can create and assign a local storage space in form of a PV and assign it to minio pod(s) in form of PVC. 
+
+In Thanos , this object storage is used for long term retention of metrics collected from each of the Prometheus. The thanos sidecar in each of the prometheus setup will then be configured to do the remote-write periodically to the minio bucket. 
+
+To install minio use the helm chart for minio :
+
+```
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+$ helm install thanos-minio bitnami/minio -n monitoring
+```
+All the default values can be used in the values.yaml. Once the chart is installed wait for minio pod to be created and make sure its up and running : 
+
+```
+kubectl get pods -n monitoring | grep minio
+thanos-minio-6c9998c78f-sw5kj                         1/1     Running   0              13d
+```
+
 To install the chart :
 
 ```
