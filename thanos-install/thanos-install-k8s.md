@@ -20,7 +20,9 @@ To install the chart :
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install thanos -f values.yaml bitnami/thanos -n monitoring
 ```
-Complete values.yaml file is upload in the same directory.This is an example file and some values will have to be modified. 
+Complete values.yaml file is upload in the same directory (https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/thanos-install/values.yaml). 
+
+This file contains the runtime configuration of all thanos components like thanos query, thanos bucketweb, thanos compactor, thanos object store etc. Any changes in conifguration needs to be made in this file and then helm release need to be upgraded with the updates values.yaml file. 
 
 Thanos installation will create below pods in the monitoring namespace : 
 
