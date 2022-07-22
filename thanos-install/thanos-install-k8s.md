@@ -55,6 +55,19 @@ All the default values can be used in the values.yaml. Once the chart is install
 kubectl get pods -n monitoring | grep minio
 thanos-minio-6c9998c78f-sw5kj                         1/1     Running   0              13d
 ```
+## Create a storage bucket in the minio S3 storage and populate the details of bucket in values.yaml
+
+Once you have minio installed , we will need to create a service for minio to expose the minio frontend UI.  We have created a NodePort service for exposing minio, the manifest for the same is uploaded in the repository : thanos-minio-np.yaml 
+
+to create the service : 
+
+```
+kubectl create -f thanos-minio
+
+-np.yaml -n monitoring
+kubectl get svc -n monitoring
+```
+use the Node IP and port assigned to minio service and create a bucket called "thanos" in minio. This bucket would be used to store the 
 
 To install the chart :
 
