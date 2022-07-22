@@ -11,8 +11,8 @@ RUN apt-get update
 RUN apt-get install -y ansible
 
 # install plugins
-#COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-#RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 #configure jenkins user
 COPY default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
