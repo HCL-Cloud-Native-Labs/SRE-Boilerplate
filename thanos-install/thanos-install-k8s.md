@@ -62,24 +62,22 @@ Once you have minio installed , we will need to create a service for minio to ex
 to create the service : 
 
 ```
-kubectl create -f thanos-minio
-
--np.yaml -n monitoring
+kubectl create -f thanos-minio-np.yaml -n monitoring
 kubectl get svc -n monitoring
 ```
-use the Node IP and port assigned to minio service and create a bucket called "thanos" in minio. This bucket would be used to store the 
+Use the Node IP and port assigned to minio service to access the frontend. Once you login to the Minio please create a bucket called "thanos" in minio. This bucket would be used to store the metric data for thanos which is collected from all the prometheues sidecars and will act as the log term store for metric data.  
 
-To install the chart :
+## Download and Install Thanos Bitnami Helm Charts
+Now it will be the time to setup Thanos using the bitnami thanos chart. To install the chart :
 
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install thanos -f values.yaml bitnami/thanos -n monitoring
 ```
-Complete values.yaml file is upload in the same directory (https://github.com/HCL-Cloud-Native-Labs/SRE-Boilerplate/blob/main/thanos-install/values.yaml). 
 
-This file contains the runtime configuration of all thanos components like thanos query, thanos bucketweb, thanos compactor, thanos object store etc. Any changes in conifguration needs to be made in this file and then helm release need to be upgraded with the updates values.yaml file. 
+Complete values.yaml file is upload in this repo and contains the runtime configuration of all thanos components like thanos query, thanos bucketweb, thanos compactor, thanos object store etc. Any changes in conifguration needs to be made in this file and then helm release need to be upgraded with the updated values.yaml file. 
 
-Thanos installation will create below pods in the monitoring namespace : 
+Thanos installation(along with minio installation in step 2) will create below pods in the monitoring namespace : 
 
 ```
 ## kubectl get pods -n monitoring | grep -i thanos
@@ -91,3 +89,39 @@ thanos-query-frontend-5f6b9cc444-bkk2s                1/1     Running   0       
 thanos-ruler-0                                        1/1     Running   0              12d
 thanos-storegateway-0                                 1/1     Running   0              12d
 ```
+You can now port-forward the thanos-query or thanos-query-frontend pods to access thanos query UI. We will also create a NodePort Service to expose the same. Rest of the components should be okay with ClusterIP type services. 
+
+Also below services would be available for thanos installation : 
+
+```
+kubectl get svc -n monitoring | grep -i thanos
+kube-prometheus-prometheus-thanos    ClusterIP   None             <none>        10901/TCP                    82d
+thanos-bucketweb                     ClusterIP   10.109.190.23    <none>        8080/TCP                     82d
+thanos-compactor                     ClusterIP   10.106.47.193    <none>        9090/TCP                     82d
+thanos-minio                         ClusterIP   10.100.79.255    <none>        9000/TCP,9001/TCP            82d
+thanos-minio-np                      NodePort    10.107.133.27    <none>        9001:30013/TCP               19d
+thanos-query                         ClusterIP   10.99.73.202     <none>        9090/TCP,10901/TCP           82d
+thanos-query-frontend                ClusterIP   10.107.21.207    <none>        9090/TCP                     82d
+thanos-ruler                         ClusterIP   10.105.247.102   <none>        9090/TCP,10901/TCP           82d
+thanos-storegateway                  ClusterIP   10.97.130.250    <none>        9090/TCP,10901/TCP           82d
+```
+
+To create a Node Port Service for Thanos-query , we can use thanos-query-np.yaml manifest available in the repo. 
+
+```
+kubectl apply -f thanos-query-np.yaml -n monitoring 
+service/thanos-query-np created
+
+kubectl get svc -n monitoring | grep -i thanos
+kube-prometheus-prometheus-thanos    ClusterIP   None             <none>        10901/TCP                    82d
+thanos-bucketweb                     ClusterIP   10.109.190.23    <none>        8080/TCP                     82d
+thanos-compactor                     ClusterIP   10.106.47.193    <none>        9090/TCP                     82d
+thanos-minio                         ClusterIP   10.100.79.255    <none>        9000/TCP,9001/TCP            82d
+thanos-minio-np                      NodePort    10.107.133.27    <none>        9001:30013/TCP               19d
+thanos-query                         ClusterIP   10.99.73.202     <none>        9090/TCP,10901/TCP           82d
+thanos-query-frontend                ClusterIP   10.107.21.207    <none>        9090/TCP                     82d
+thanos-query-np                      NodePort    10.102.65.232    <none>        10902:30015/TCP              55s
+thanos-ruler                         ClusterIP   10.105.247.102   <none>        9090/TCP,10901/TCP           82d
+thanos-storegateway                  ClusterIP   10.97.130.250    <none>        9090/TCP,10901/TCP           82d
+```
+
