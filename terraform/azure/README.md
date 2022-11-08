@@ -29,5 +29,3 @@ This is the list of examples:
 * [07-terraform-state](code/07-terraform-state) - Terraform State: Example of how to store the information about what infrastructure has been created on Microsoft Azure.
 
 ## License
-
-This code is released under the MIT License. See LICENSE file.
