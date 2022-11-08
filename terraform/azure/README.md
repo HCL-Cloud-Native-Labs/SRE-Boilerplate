@@ -6,10 +6,6 @@ Terraform is used to create, manage, and update infrastructure resources such as
 
 This repo contains [Terraform](https://www.terraform.io/) code examples on Microsoft Azure.
 
-The Github repository
-[https://github.com/alfonsof/terraform-examples-aws](https://github.com/alfonsof/terraform-examples-aws)
-contains the code samples based in the book *[Terraform: Up and Running](http://www.terraformupandrunning.com)* by [Yevgeniy Brikman](http://www.ybrikman.com). But those examples use AWS (Amazon Web Services).
-
 Terraform also supports other Cloud providers and this Github repository contains the code samples of the book on Microsoft Azure.
 
 ## Quick start
