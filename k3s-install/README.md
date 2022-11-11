@@ -22,9 +22,10 @@ A kubeconfig file is written to /etc/rancher/k3s/k3s.yaml and the service is aut
 
 	sudo kubectl get nodes
 
-K3S_TOKEN is created at /var/lib/rancher/k3s/server/node-token on your server. To install on worker nodes, pass K3S_URL along with K3S_TOKEN or K3S_CLUSTER_SECRET environment variables, for example:
+K3S_TOKEN is created at /var/lib/rancher/k3s/server/node-token on your server. To install on worker nodes, pass K3S_URL along with K3S_TOKEN or K3S_CLUSTER_SECRET environment variables, for example: 
 
 	curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=XXX sh -
-	
+
+If adding node is taking long time then allow 6443 port using command : "ufw allow 6443/tcp"	
 
 Please see the [official docs site](https://rancher.com/docs/k3s/latest/en/) for complete documentation.
