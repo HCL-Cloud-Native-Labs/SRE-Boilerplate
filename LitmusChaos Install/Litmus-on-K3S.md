@@ -18,6 +18,7 @@ The helm chart will install all the required service account configuration and C
 ```
 helm repo add litmuschaos https://litmuschaos.github.io/litmus-helm/
 helm repo list
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
 
 **Step-2**: Create the namespace on which you want to install Litmus ChaosCenter#
@@ -293,7 +294,7 @@ All of the Experiments can be installed using the below command
 ```
 kubectl create -f https://hub.litmuschaos.io/api/chaos/2.3.0?file=charts/generic/experiments.yaml -n <APP_NAMESPACE>
 ```
-Here APP_NAMESPACE would be the namespace when Application is installed ( in this case "de").
+Here APP_NAMESPACE would be the namespace when Application is installed ( in this case "defaul").
 
 Once the experiments have been installed , you can use below command to list out all the ChaosExperiemnt and go through the details of a ChaosExperiment.
 
