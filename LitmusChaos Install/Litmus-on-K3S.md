@@ -292,9 +292,14 @@ There is a set of pre-defined ChaosExperiments and documentation for these can b
 
 All of the Experiments can be installed using the below command 
 ```
-kubectl create -f https://hub.litmuschaos.io/api/chaos/2.3.0?file=charts/generic/experiments.yaml -n <APP_NAMESPACE>
+kubectl create -f https://hub.litmuschaos.io/api/chaos/2.14.0?file=charts/generic/experiments.yaml -n <APP_NAMESPACE>
 ```
-Here APP_NAMESPACE would be the namespace when Application is installed ( in this case "defaul").
+Here APP_NAMESPACE would be the namespace when Application is installed ( in this case "default"). If this command throws error then go directly to the link in the above command and copy-paste the manifest for installing Chaos Experiments (name it chaos-experiments-<cohort-name>.yaml". You can then install the experiements using the below command : 
+
+```
+kubectl create -f chaos-experiments-<cohort-name>.yaml -n <APP_NAMESPACE>
+```
+APP_NAMESPACE value would in this case still be "default"
 
 Once the experiments have been installed , you can use below command to list out all the ChaosExperiemnt and go through the details of a ChaosExperiment.
 
