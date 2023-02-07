@@ -39,6 +39,8 @@
     ## Weave
     kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
     
+    [update from chetan] kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+    
     kubectl get nodes
     kubectl get all --all-namespaces
 
