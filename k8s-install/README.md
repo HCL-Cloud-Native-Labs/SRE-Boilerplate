@@ -2,47 +2,67 @@
 
 ### Step1: `On All Machines ( Master & All nodes ):`
 
-    ### INSTALL DOCKER & Configure 
-    
     sudo apt-get update
-    sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+    
+    cat << EOF | sudo tee /etc/modules-load.d/containerd.conf 
+	overlay 
+	br_netfilter 
+	EOF
 
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update ; clear
-    sudo apt-get install -y docker-ce
+    sudo modprobe overlay
     
-    sudo vi /etc/docker/daemon.json
-    
-	{
-    		"exec-opts": ["native.cgroupdriver=systemd"]
-	}
-    
-    sudo service docker restart
-  
-    
-    ### INSTALL KUBEADM,KUBELET,KUBECTL
+    sudo modprobe br_netfilter
 
-    echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    sudo apt-get update ; clear
-    sudo apt-get install -y kubelet kubeadm kubectl	
+    cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+	net.bridge.bridge-nf-call-iptables = 1
+	net.ipv4.ip_forward = 1
+	net.bridge.bridge-nf-call-ip6tables = 1
+	EOF
+
+    sudo sysctl --system
+
+    sudo apt-get update
+    
+    sudo apt-get update && sudo apt-get install -y containerd 
+
+    sudo mkdir -p /etc/containerd 
+    
+    sudo containerd config default | sudo tee
+
+    sudo systemctl restart containerd
 	
+    swapoff -a  (temporary disable swap)
+    vi /etc/fstab  (full disable swap)
+    
+    sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+    
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+    cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+	deb https://apt.kubernetes.io/ kubernetes-xenial main
+	EOF
+
+    sudo apt-get update
+    
+    sudo apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
+    
+    sudo apt-mark hold kubelet kubeadm kubectl
+
 ### Step2: `On Master only:`
 
-    sudo kubeadm init --ignore-preflight-errors=all
+    sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.24.0
 	
     sudo mkdir -p $HOME/.kube
+    
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
     
-    ## Weave
-    kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-    
-    [update from chetan] kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
-    
     kubectl get nodes
-    kubectl get all --all-namespaces
+
+    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+    
+    kubeadm token create --print-join-command    (Run only if you forget the Token)
 
 ### Step3: `On Nodes only:`
        
@@ -51,7 +71,6 @@
     Ex: kubeadm join 10.128.15.231:6443 --token mks3y2.v03tyyru0gy12mbt \
            --discovery-token-ca-cert-hash sha256:3de23d42c7002be0893339fbe558ee75e14399e11f22e3f0b34351077b7c4b56
 
-#
 
 
 ## Install Kubernetes on CENTOS 
