@@ -16,7 +16,7 @@ pipeline {
             }
             steps {
                 // Create our project directory.
-                sh 'cd src'
+                //sh 'cd src'
                 sh 'mkdir -p src/hello-world'
                 // Copy all files in our Jenkins workspace to our project directory.                
                 sh 'cp -r ${WORKSPACE}/* src/hello-world'
@@ -35,7 +35,7 @@ pipeline {
             }
             steps {                 
                 // Create our project directory.
-                sh 'cd src'
+                //sh 'cd src'
                 sh 'mkdir -p src/hello-world'
                 // Copy all files in our Jenkins workspace to our project directory.                
                 sh 'cp -r ${WORKSPACE}/* src/hello-world'
