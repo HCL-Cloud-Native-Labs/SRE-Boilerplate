@@ -3,6 +3,8 @@
 ### To install K3s on a one node cluster you simply have to run the following command with root privileges:
 
 	curl -sfL https://get.k3s.io | sh -
+	or
+	curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--tls-san x.x.x.x" sh -s - ### x.x.x.x=IP address of vm
 
 This will install the K3s binary under /usr/local/bin/k3s and create multiple symlinks to that binary. The installer will also create a Systemd service unit and start the service with each boot:
 
