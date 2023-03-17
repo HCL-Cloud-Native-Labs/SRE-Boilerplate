@@ -34,7 +34,7 @@
     
     sudo systemctl restart containerd
 
-### Step2: `On Master only:`
+### Step2: `On Master only:
 
     sudo kubeadm init --pod-network-cidr 192.168.0.0/16
 	
@@ -46,7 +46,7 @@
     
     kubectl get nodes
 
-    curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml -O
+    curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml 
     
     kubectl apply -f calico.yaml
     
