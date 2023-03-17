@@ -1,15 +1,20 @@
-## Install Kubernetes on Ubuntu 18.04 LTS 
+## Install Kubernetes on Ubuntu 20.04 LTS 
 
 ### Step1: `On All Machines ( Master & All nodes ):`
 
-    sudo apt-get update
+    sudo apt update
     
-    cat << EOF | sudo tee /etc/modules-load.d/containerd.conf 
-	overlay 
-	br_netfilter 
-	EOF
+    swapoff -a
 
-    sudo modprobe overlay
+    sudo apt install docker.io -y
+    
+    sudo apt install apt-transport-https curl -y
+    
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+    
+    sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    
+    sudo apt update
     
     sudo modprobe br_netfilter
 
@@ -21,36 +26,17 @@
 
     sudo sysctl --system
 
-    sudo apt-get update
+    sudo apt update
     
-    sudo apt-get update && sudo apt-get install -y containerd 
-
-    sudo mkdir -p /etc/containerd 
+    sudo apt install kubeadm kubelet kubectl kubernetes-cni -y
     
-    sudo containerd config default | sudo tee
-
+    sudo rm -rf /etc/containerd/config.toml
+    
     sudo systemctl restart containerd
-	
-    swapoff -a  (temporary disable swap)
-    vi /etc/fstab  (full disable swap)
-    
-    sudo apt-get update && sudo apt-get install -y apt-transport-https curl
-    
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-    cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-	deb https://apt.kubernetes.io/ kubernetes-xenial main
-	EOF
-
-    sudo apt-get update
-    
-    sudo apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
-    
-    sudo apt-mark hold kubelet kubeadm kubectl
 
 ### Step2: `On Master only:`
 
-    sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.24.0
+    sudo kubeadm init --pod-network-cidr 192.168.0.0/16
 	
     sudo mkdir -p $HOME/.kube
     
@@ -60,7 +46,9 @@
     
     kubectl get nodes
 
-    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+    curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml -O
+    
+    kubectl apply -f calico.yaml
     
     kubeadm token create --print-join-command    (Run only if you forget the Token)
 
