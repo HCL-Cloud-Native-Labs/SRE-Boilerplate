@@ -135,7 +135,7 @@ In this article, you'll learn how to:
 
     ![Jenkins is ready!](./media/start-using-jenkins.png)
 
-## 5. Create your first job
+## 3. Create your first job
 
 1. On the Jenkins home page, select **Create a job**.
 
@@ -167,7 +167,7 @@ In this article, you'll learn how to:
 
 1. Scroll to the bottom of the page, and select **Save**.
 
-## 6. Build the sample Java app
+## 4. Build the sample Java app
 
 1. When the home page for your project displays, select **Build Now** to compile the code and package the sample app.
 
@@ -191,7 +191,3 @@ In this article, you'll learn how to:
 
 If you encounter any problems configuring Jenkins, refer to the [Jenkins installation page](https://www.jenkins.io/doc/book/installing/) for the latest instructions and known issues.
 
-## Next steps
-
-> [!div class="nextstepaction"]
-> [Jenkins on Azure](./index.yml)
