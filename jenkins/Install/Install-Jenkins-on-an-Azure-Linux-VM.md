@@ -113,7 +113,7 @@ In this article, you'll learn how to:
 
 1. Enter the password you retrieved earlier and select **Continue**.
 
-    [Initial page to unlock Jenkins](./media/unlock-jenkins.png)
+    ![Initial page to unlock Jenkins](./media/unlock-jenkins.png)
 
 1. Select **Select plug-in to install**.
 
