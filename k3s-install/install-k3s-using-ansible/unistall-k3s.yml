@@ -1,0 +1,12 @@
+---
+ - hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+      - name: Uninstalling the K3S Cluster
+        shell: |
+               sh /usr/local/bin/k3s-uninstall.sh
+
+      - name: Updating Apt packages
+        shell: |
+               apt update
