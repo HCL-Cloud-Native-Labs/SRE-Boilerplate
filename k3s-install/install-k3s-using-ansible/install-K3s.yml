@@ -10,6 +10,19 @@
       - name: Installing k3s cluster
         shell: |
                curl -sfL https://get.k3s.io | sh -
+
+      - name: Status of K3s Cluster
+        shell: |
                systemctl status k3s.service
+        register: service_command_out
+
+      - debug:
+              var: service_command_out.stdout_lines 
+
+      - name: K3s Cluster information
+        shell: |
                kubectl cluster-info
-               
+        register: cluster_info_out
+
+      - debug:
+              var: cluster_info_out.stdout_lines
