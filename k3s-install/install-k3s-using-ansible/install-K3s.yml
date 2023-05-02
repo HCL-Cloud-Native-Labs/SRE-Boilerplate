@@ -1,0 +1,15 @@
+---
+ - hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+      - name: Updating Apt packages
+        shell: |
+               apt update
+
+      - name: Installing k3s cluster
+        shell: |
+               curl -sfL https://get.k3s.io | sh -
+               systemctl status k3s.service
+               kubectl cluster-info
+               
