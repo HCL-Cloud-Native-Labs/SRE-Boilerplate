@@ -19,7 +19,7 @@ In this article, you'll learn how to:
    az account set --subscription "subscription-name"
    ```
    
-1. Run [az group create](/cli/azure/group#az-group-create) to create a resource group. Lolcation, you can choose as per your need.
+1. Run [az group create](/cli/azure/group#az-group-create) to create a resource group.(SKIP THIS STEP as we created resource group for you.)
 
     ```azurecli
     az group create --name sre-cohort-20 --location eastus
