@@ -13,6 +13,11 @@ In this article, you'll learn how to:
 > * Publish the artifacts (docker image) into hub.docker.com
 > * Deploye the artifacts on Kuberneties(K3s) Cluster.
 
+Prerequsite:
+> * Github account to fork the sample app(shark-info) from repo: https://github.com/HCL-Cloud-Native-Labs/sre-shark-info.git
+> * Dockerhub account to push(store) artifacts(docker images) of sample app.
+> * Valid azure account 
+
 ## 1. Create a virtual machine using Azure CLI
 
 1. Login to Azure Portal and connect Cloud-Shell
@@ -94,7 +99,24 @@ In this article, you'll learn how to:
     sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
-## 2. Configure Jenkins
+## 2. Install Docker and Kubernetes(k3s) on VM
+
+1. Run the following commands to install docker engine using root user
+   ```azurecli
+   sudo apt  install docker.io
+   sudo usermod -a -G docker jenkins
+   sudo chmod 666 /var/run/docker.sock
+   ```
+
+1. Run the following commands to install Kubernetes(K3s) using root user
+   ```azurecli
+   curl -sfL https://get.k3s.io | sh - --write-kubeconfig-mode 644
+   systemctl status k3s.service
+   kubectl cluster-info
+   
+   ```
+
+## 3. Configure Jenkins
 
 1. As Jenkins runs on port 8080, run [az vm open](/cli/azure/vm#az-vm-open-port) on Cloud-Shell to open port 8080 on the new virtual machine.
 
@@ -128,6 +150,11 @@ In this article, you'll learn how to:
 
     ![Jenkins is ready!](./media/jenkins-is-ready.png)
 
+1. Fork the sample app from repo: https://github.com/HCL-Cloud-Native-Labs/sre-shark-info.git
+   
+   ![Fork the repositry](./media/fork-sample-app.png)
+   ![Fork the repositry](./media/fork-sample-app-done.png)
+
 1. On the Jenkins home page, select **Create a job**.
 
     ![Jenkins console home page](./media/jenkins-home-page.png)
@@ -136,11 +163,16 @@ In this article, you'll learn how to:
 
     ![New job creation](./media/new-job.png)
 
-1. Go to **Pipeline Section** select the **Pipeline Script from SCM** from Defination tab. Choose **Git** from SCM tab and enter the following URL for the **Repository URL** value: `https://github.com/HCL-Cloud-Native-Labs/sre-shark-info.git`. Then change the **Branch Specifier** to `*/main`.
+1. Go to **Pipeline Section** select the **Pipeline Script from SCM** from Defination tab. Choose **Git** from SCM tab and enter the following URL for the **Repository URL** value: `https://github.com/<github-account-name>/sre-shark-info.git`. Then change the **Branch Specifier** to `*/main`.
 
     ![Define the Git repo](./media/new-job-1.png)
     ![Define the Git repo](./media/new-job-2.png)
     ![Define the Git repo](./media/new-job-3.png)
+    
+   **Key points**:
+
+    - Fork the sample app repository for **Repository URL** value: 
+
 
 1. Write " Jenkinsfile" in Script Path tab.
 
@@ -156,5 +188,14 @@ In this article, you'll learn how to:
 
     ![Job-build in progress](./media/job-currently-building.png)
     
+1. As Shark-Info runs on port 31113, run [az vm open](/cli/azure/vm#az-vm-open-port) on Cloud-Shell to open port 31113 on the new virtual machine.
+
+    ```azurecli
+    az vm open-port \
+    --resource-group sre-cohort-20 \
+    --name my-vm-name  \
+    --port 31113 --priority 1020
+    ```
+1. Using the VM IP address, open the following URL in a browser: `http://<vm ip_address>:31113`
 
 1. Your Jenkins server is now ready to build your own projects in Azure!
