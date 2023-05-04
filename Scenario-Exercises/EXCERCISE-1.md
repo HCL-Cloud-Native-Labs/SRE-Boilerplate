@@ -94,3 +94,26 @@ In this article, you'll learn how to:
 1. Using the IP address, open the following URL in a browser: `http://<ip_address>:8080`
 
 1. Enter the password you retrieved earlier and select **Continue**.
+
+   ![Initial page to unlock Jenkins](./media/unlock-jenkins.png)
+   
+
+1. Select **Select plug-in to install**.
+
+    ![Select the option to install suggested plug-ins](./media/suggested-plugins.png)
+
+1. Enter the information for the first admin user and select **Save and Continue**.
+
+    ![Enter information for first admin user](./media/create-first-user.png)
+
+1. On the **Instance Configuration** page, select **Save and Finish**.
+
+    ![Confirmation page for instance configuration](./media/instance-configuration.png)
+
+1. Select **Start using Jenkins**.
+
+    ![Jenkins is ready!](./media/jenkins-is-ready.png)
+
+1. On the Jenkins home page, select **Create a job**.
+
+    ![Jenkins console home page](./media/jenkins-home-page.png)
