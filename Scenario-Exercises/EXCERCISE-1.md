@@ -7,7 +7,7 @@ In this article, you'll learn how to:
 > * Create a virtual machine with the setup file
 > * Open port 8080 in order to access Jenkins on the virtual machine
 > * Connect to the virtual machine via SSH
-> * Configure a sample Jenkins job based on a sample Java app in GitHub
+> * Configure a sample Jenkins job based on a sample java containerized app in GitHub
 > * Build the sample Jenkins job
 
 ## 1. Create a virtual machine using Azure CLI
@@ -91,6 +91,17 @@ In this article, you'll learn how to:
     sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
+## 2. Configure Jenkins
+
+1. As Jenkins runs on port 8080, run [az vm open](/cli/azure/vm#az-vm-open-port) on Cloud-Shell to open port 8080 on the new virtual machine.
+
+    ```azurecli
+    az vm open-port \
+    --resource-group sre-cohort-20 \
+    --name my-vm-name  \
+    --port 8080 --priority 1010
+    ```
+    
 1. Using the IP address, open the following URL in a browser: `http://<ip_address>:8080`
 
 1. Enter the password you retrieved earlier and select **Continue**.
@@ -117,3 +128,36 @@ In this article, you'll learn how to:
 1. On the Jenkins home page, select **Create a job**.
 
     ![Jenkins console home page](./media/jenkins-home-page.png)
+
+1. Enter a job name of `Declarative-Job`, select **Pipeline project**, and select **OK**.
+
+    ![New job creation](./media/new-job.png)
+
+1. Go to **Pipeline Section** select the **Pipeline Script from SCM** from Defination tab. Choose **Git** from SCM tab and enter the following URL for the **Repository URL** value: `https://github.com/HCL-Cloud-Native-Labs/sre-shark-info.git`. Then change the **Branch Specifier** to `*/main`.
+
+    ![Define the Git repo](./media/source-code-management.png)
+
+1. Write " Jenkinsfile" in Script Path tab.
+
+1. Scroll to the bottom of the page, and select **Save**.
+
+## 3. Build the sample application - Shark-info
+
+1. When the home page for your project displays, select **Build Now** to compile the code and package the sample app.
+
+    ![Project home page](./media/project-home-page.png)
+
+1. A graphic below the **Build History** heading indicates that the job is being built.
+
+    ![Job-build in progress](./media/job-currently-building.png)
+
+1. When the build completes, select the **Workspace** link.
+
+    ![Select the workspace link.](./media/job-workspace.png)
+
+1. Navigate to `complete/build/libs` to see that the `.jar` file was successfully built.
+
+    ![The target library verifies the build succeeded.](./media/successful-build.png)
+    
+
+1. Your Jenkins server is now ready to build your own projects in Azure!
