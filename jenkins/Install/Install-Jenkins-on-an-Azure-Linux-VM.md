@@ -29,7 +29,7 @@ In this article, you'll learn how to:
     --image UbuntuLTS \
     --admin-username "azureuser" \
     --generate-ssh-keys \
-    --public-ip-sku Standard \
+    --public-ip-sku Standard 
     ```
 
 1. Run [az vm list](/cli/azure/vm#az-vm-list) to verify the creation (and state) of the new virtual machine.
