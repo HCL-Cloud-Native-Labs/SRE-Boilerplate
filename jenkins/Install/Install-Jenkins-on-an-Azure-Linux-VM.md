@@ -14,25 +14,6 @@ In this article, you'll learn how to:
 
 ## 1. Create a virtual machine
 
-1. Create a test directory called `jenkins-get-started`.
-
-1. Switch to the test directory.
-
-1. Create a file named `cloud-init-jenkins.txt`.
-
-1. Paste the following code into the new file:
-
-    ```
-    #cloud-config
-    package_upgrade: true
-    runcmd:
-      - sudo apt install openjdk-11-jre -y
-      - wget -qO - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-      - sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-      - sudo apt-get update && sudo apt-get install jenkins -y
-      - sudo service jenkins restart
-    ```
-    
 1. Run [az group create](/cli/azure/group#az-group-create) to create a resource group.
 
     ```azurecli
@@ -49,7 +30,6 @@ In this article, you'll learn how to:
     --admin-username "azureuser" \
     --generate-ssh-keys \
     --public-ip-sku Standard \
-    --custom-data cloud-init-jenkins.txt
     ```
 
 1. Run [az vm list](/cli/azure/vm#az-vm-list) to verify the creation (and state) of the new virtual machine.
@@ -93,6 +73,21 @@ In this article, you'll learn how to:
 
     - Upon successful connection, the Cloud Shell prompt includes the user name and virtual machine name: `azureuser@jenkins-get-started-vm`.
 
+1. Run following commands on command prompt to install jenkins.
+
+    ```
+      - sudo apt install openjdk-11-jre -y
+      - wget -qO - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+      - sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+      - curl -fsSL https://pkg.jenkins.io/debian/jenkins.io-2023.key | sudo tee \
+        /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+      - echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+        https://pkg.jenkins.io/debian binary/ | sudo tee \
+        /etc/apt/sources.list.d/jenkins.list > /dev/null
+      - sudo apt-get update && sudo apt-get install jenkins -y
+      - sudo service jenkins restart
+    ```
+    
 1. Verify that Jenkins is running by getting the status of the Jenkins service.
 
     ```bash
