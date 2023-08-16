@@ -5,7 +5,7 @@
    tasks:
       - name: Updating Apt packages
         shell: |
-               apt-get update
+               apt update
 
       - name: Installing k3s cluster
         shell: |
