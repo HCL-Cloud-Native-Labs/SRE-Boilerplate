@@ -26,13 +26,6 @@ pipeline {
             }
 			
         }
-        stage('metric-check') {
-			steps {
-                echo 'unit test..'
-				sh label: '', script: 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
-            }
-			
-        }
         stage('package') {
 			steps {
                 echo 'metric-check..'
