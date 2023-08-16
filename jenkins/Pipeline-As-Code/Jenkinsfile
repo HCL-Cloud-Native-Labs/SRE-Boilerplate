@@ -12,18 +12,12 @@ pipeline {
 			steps {
                 echo 'codereview..'
 				sh label: '', script: 'mvn -P metrics pmd:pmd'
-            }
-			post {
-                success {
-                    pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''
-                }
-            }
-			
+            }	
         }
         stage('unit-test') {
 			steps {
                 echo 'codereview..'
-				bat label: '', script: 'mvn test'
+				sh label: '', script: 'mvn test'
             }
 			post {
                 success {
@@ -35,7 +29,7 @@ pipeline {
         stage('metric-check') {
 			steps {
                 echo 'unit test..'
-				bat label: '', script: 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
+				sh label: '', script: 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
             }
 			post {
                 success {
@@ -47,7 +41,7 @@ pipeline {
         stage('package') {
 			steps {
                 echo 'metric-check..'
-				bat label: '', script: 'mvn package'	
+				sh label: '', script: 'mvn package'	
             }
 			
         }
